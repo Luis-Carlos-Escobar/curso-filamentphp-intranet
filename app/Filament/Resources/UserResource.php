@@ -23,7 +23,9 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
     protected static ?string $label= 'employees';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationGroup = "Employees Management";
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -41,6 +43,7 @@ class UserResource extends Resource
                         ->maxLength(255),
                     Forms\Components\TextInput::make('password')
                         ->password()
+                        ->hiddenOn('edit')
                         ->required()
                         ->maxLength(255),
                 ]),
@@ -95,7 +98,14 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('address')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('postal_code')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
